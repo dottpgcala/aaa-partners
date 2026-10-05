@@ -1,7 +1,7 @@
 "use client";
 import CmsLive from "./cms-live";
 import {useEffect,useRef,useState} from "react";
-import {ArrowUpRight,ArrowRight,ShieldCheck,Landmark,ChartNoAxesCombined,Gem,House,CircleCheck,Menu,X,Mail,Check} from "lucide-react";
+import {ArrowUpRight,ArrowRight,ShieldCheck,Landmark,ChartNoAxesCombined,Gem,House,CircleCheck,Menu,X,Mail,Phone,Check} from "lucide-react";
 
 const services=[{title:"Cassa malati e assicurazioni",short:"Proteggere ciò che conta.",text:"Orientati tra coperture, franchigie e assicurazioni complementari. Partiamo dalle tue esigenze per leggere e confrontare le soluzioni con chiarezza.",items:["Analisi delle coperture esistenti","Confronto di costi e condizioni","Protezione della persona e della famiglia"],icon:ShieldCheck,tag:"PROTEZIONE",cta:"protezione"},{title:"Secondo e terzo pilastro",short:"Il futuro si costruisce oggi.",text:"Metti in relazione previdenza professionale, risparmio individuale e obiettivi di vita. Una visione coordinata per preparare le tue scelte pensionistiche.",items:["Lettura della situazione previdenziale","Valutazione di esigenze e possibili lacune","Pianificazione del percorso pensionistico"],icon:Landmark,tag:"PREVIDENZA",cta:"previdenza"},{title:"Finanza e Wealth Management",short:"Una direzione per il patrimonio.",text:"Dai un ordine a obiettivi, orizzonte temporale e propensione al rischio. Un confronto per comprendere investimenti, liquidità e priorità patrimoniali.",items:["Analisi degli obiettivi patrimoniali","Lettura di rischi, costi e diversificazione","Coordinamento delle esigenze familiari"],icon:ChartNoAxesCombined,tag:"PATRIMONIO",cta:"patrimonio"},{title:"Luxury & Gold Advisory",short:"Oltre il valore apparente.",text:"Oro e beni di pregio richiedono attenzione a provenienza, autenticità e liquidabilità. Ti aiutiamo a strutturare le verifiche prima di una decisione.",items:["Orientamento su oro e beni di pregio","Analisi di costi, custodia e rivendibilità","Supporto nel confronto con specialisti"],icon:Gem,tag:"BENI REALI",cta:"beni di valore"},{title:"Real Estate & Mortgage",short:"Spazio ai tuoi progetti.",text:"Acquisto, valorizzazione immobiliare e finanziamento: valutiamo insieme il progetto e le alternative, con attenzione alla sostenibilità nel tempo.",items:["Analisi del progetto immobiliare","Confronto delle soluzioni ipotecarie","Supporto al percorso di acquisizione"],icon:House,tag:"IMMOBILI",cta:"immobili"}];
 const overview='Una visione d’insieme';
@@ -12,11 +12,11 @@ const ribbon=['PROTEZIONE ',' PREVIDENZA ',' PATRIMONIO ',' BENI REALI ',' IMMOB
 
 /* TEAM — compilare quando i dati sono disponibili.
    photo: file in /public/team (es. "/team/armando.jpg"), formato verticale 3:4. */
-type Member={name:string;surname:string;role:string;bio:string;photo:string;email:string;linkedin:string};
+type Member={title:string;name:string;surname:string;role:string;note:string;bio:string;photo:string;email:string;phone:string;linkedin:string};
 const team:Member[]=[
-  {name:"Armando",surname:"",role:"Partner",bio:"",photo:"",email:"",linkedin:""},
-  {name:"Salvatore",surname:"",role:"Partner",bio:"",photo:"",email:"",linkedin:""},
-  {name:"Piergiorgio",surname:"",role:"Partner",bio:"",photo:"",email:"",linkedin:""},
+  {title:"",name:"Armando",surname:"Cucci",role:"Co-Founder & Luxury/Real Estate Advisor",note:"",bio:"",photo:"",email:"armando.cucci@aaapartners.it",phone:"+41 79 932 18 28",linkedin:""},
+  {title:"",name:"Salvatore",surname:"Pilo",role:"Co-Founder & Financial Advisor",note:"FINMA: F01492567",bio:"",photo:"",email:"salvatore.pilo@aaapartners.it",phone:"+41 78 211 22 26",linkedin:""},
+  {title:"Dott.",name:"Piergiorgio",surname:"Calá",role:"Co-Founder & Wealth Manager",note:"",bio:"",photo:"",email:"piergiorgio.cala@aaapartners.it",phone:"+41 79 512 55 24",linkedin:""},
 ];
 
 const Arrow=()=><ArrowUpRight size={17} strokeWidth={1.8}/>;
@@ -151,8 +151,8 @@ return <><CmsLive/><div className="progress" id="progress"/>
   <div className="team-grid">{team.map(m=>{const full=[m.name,m.surname].filter(Boolean).join(' ');const initials=(m.name[0]+(m.surname[0]||'')).toUpperCase();return <article className={'member reveal'+(m.photo?' has-photo':'')} tabIndex={0} key={m.name}>
     <div className="photo" style={m.photo?{backgroundImage:`url("${m.photo}")`}:undefined}/>
     {!m.photo&&<div className="mono" aria-hidden="true" data-cms-ignore="true"><svg viewBox="0 0 100 100"><circle className="r1" cx="50" cy="50" r="49"/><circle className="r2" cx="50" cy="50" r="40"/><text x="50" y="52">{initials}</text></svg></div>}
-    {!(m.bio||m.photo)&&<span className="pending">Profilo in arrivo</span>}
-    <div className="body"><span className="role">{m.role}</span><h3>{full}</h3><div className="more"><div><p>{m.bio||'Biografia, competenze e contatti saranno pubblicati a breve.'}</p>{(m.email||m.linkedin)&&<div className="links">{m.email&&<a href={'mailto:'+m.email} aria-label={'Email '+full}><Mail size={16}/></a>}{m.linkedin&&<a href={m.linkedin} target="_blank" rel="noopener noreferrer" aria-label={'LinkedIn '+full}><ArrowUpRight size={16}/></a>}</div>}</div></div></div>
+    {!(m.bio||m.photo)&&<span className="pending">Biografia in arrivo</span>}
+    <div className="body"><span className="role">{m.role}</span>{m.title&&<span className="mtitle">{m.title}</span>}<h3>{full}</h3><div className="more"><div>{m.bio&&<p>{m.bio}</p>}{m.note&&<p className="mnote">{m.note}</p>}<div className="contacts">{m.email&&<a href={'mailto:'+m.email}><Mail size={15}/>{m.email}</a>}{m.phone&&<a href={'tel:'+m.phone.replace(/\s/g,'')}><Phone size={15}/>{m.phone}</a>}</div>{m.linkedin&&<div className="links"><a href={m.linkedin} target="_blank" rel="noopener noreferrer" aria-label={'LinkedIn '+full}><ArrowUpRight size={16}/></a></div>}</div></div></div>
   </article>})}</div>
 </div>
 <svg width="0" height="0" style={{position:'absolute'}} aria-hidden="true"><defs><linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#f1dcae"/><stop offset=".5" stopColor="#c9a96e"/><stop offset="1" stopColor="#9c7f48"/></linearGradient></defs></svg>
